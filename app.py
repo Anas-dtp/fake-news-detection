@@ -14,6 +14,25 @@ with open('fake_news_model.pkl', 'rb') as f:
     model, tfidf = pickle.load(f)
 
 
+import nltk
+
+try:
+    from nltk.corpus import stopwords  # Try to import stopwords
+    # If it works, the data is there
+except LookupError:
+    print("Downloading NLTK data (stopwords)...")
+    nltk.download('stopwords', download_dir='/opt/render/nltk_data') #specify download directory
+    from nltk.corpus import stopwords  # Import again after download
+try:
+     nltk.word_tokenize("test") # Try to tokenize to check if punkt is present
+except LookupError:
+     print("Downloading punkt data...")
+     nltk.download('punkt', download_dir='/opt/render/nltk_data')  # Download if not present
+     nltk.download('averaged_perceptron_tagger', download_dir='/opt/render/nltk_data') #download this as well
+
+
+     
+
 def preprocess_text(text):
     text = re.sub(r'[^\w\s]', '', text.lower())
     # tokens = word_tokenize(text)  # Remove this line
